@@ -14,9 +14,16 @@ import blackjackvinteum.enums.Valores;
 public class Cards {
     private final Naipe naipe;
     private final Valores valor;
+    private String icon;
     
     public Cards(Naipe naipe, Valores valor){
+        this.icon = "/cards/imagens/";//10c.png
         this.naipe = naipe;
         this.valor = valor;
+        this.icon = this.icon + valor.toString();
+        this.icon = this.icon + naipe.toString();
+        this.icon = this.icon + ".png";
     }
+    
+    
 }

@@ -10,5 +10,10 @@ package blackjackvinteum.players;
  * @author rodri
  */
 public class Player {
+    private Integer hand = 0;
+
+    public void setHand(Integer hand) {
+        this.hand = hand;
+    }
     
 }

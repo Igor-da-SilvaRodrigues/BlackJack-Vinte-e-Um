@@ -28,5 +28,25 @@ public enum Naipe {
     public int getNaipe() {
         return naipe;
     }
-    
+
+    /**
+     *  Usado para obter a representação em String do objeto enum.
+     * @return
+     *  O nome do objeto Enum.
+     */
+    @Override public String toString(){
+        switch(this.naipe){
+            case 1:
+                return "PAUS";
+            case 2:
+                return "OUROS";
+            case 3:
+                return "COPAS";
+            case 4:
+                return "ESPADAS";
+            default:
+                return "ERRO";
+        }
+    }
+  
 }

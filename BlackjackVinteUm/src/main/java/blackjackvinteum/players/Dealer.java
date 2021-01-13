@@ -21,7 +21,6 @@ public class Dealer {
         this.deck = new Stack<>();
         Random random = new Random();
         
-        this.deck = new Stack();
         for (Naipe i = Naipe.PAUS; i.getNaipe()<=4; i.nextNaipe()){
             for (Valores j = Valores.UM; j.getValor()<=13; j.nextValor()){
                 if (i.getNaipe() == 1 && j.getValor() == 1){
@@ -36,5 +35,9 @@ public class Dealer {
     public Cards deal(){
         Cards jogada = deck.pop();
         return jogada;
+    }
+
+    public void setHand(Integer hand) {
+        this.hand = hand;
     }
 }
