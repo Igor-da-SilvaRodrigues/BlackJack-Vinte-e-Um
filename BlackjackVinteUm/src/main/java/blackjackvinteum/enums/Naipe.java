@@ -1,13 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package blackjackvinteum.enums;
 
 /**
  *
- * @author rodri
+ * @author Igor da Silva Rodrigues
  */
 public enum Naipe {
     PAUS(1), OUROS(2), COPAS(3), ESPADAS(4);

@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package blackjackvinteum.view;
 
 import javax.swing.ImageIcon;
@@ -13,7 +9,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author rodri
+ * @author Igor da Silva Rodrigues
  */
 public class TelaPrincipal extends javax.swing.JFrame {
     private final String NULL_CARD_PATH = "/cards/imagens/back.png";
