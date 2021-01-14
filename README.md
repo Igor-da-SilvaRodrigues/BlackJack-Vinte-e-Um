@@ -1,2 +1,3 @@
 # BlackJack Vinte e Um
- BlackJack em Swing
+ * BlackJack em Swing
+     * Blackjack sem apostas
