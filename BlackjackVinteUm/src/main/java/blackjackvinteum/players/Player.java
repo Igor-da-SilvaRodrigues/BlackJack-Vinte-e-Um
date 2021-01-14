@@ -16,4 +16,12 @@ public class Player {
         this.hand = hand;
     }
     
+    public Integer getHand(){
+        return hand;
+    }
+    
+    public void addHand(Integer hand){
+        this.hand = this.hand + hand;
+    }
+    
 }

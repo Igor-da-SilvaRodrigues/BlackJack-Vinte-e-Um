@@ -11,17 +11,34 @@ package blackjackvinteum.enums;
  */
 public enum Naipe {
     PAUS(1), OUROS(2), COPAS(3), ESPADAS(4);
-    private int naipe;
+    private final int naipe;
     
     Naipe(int naipe){
         this.naipe = naipe;
     }
     
-    public void nextNaipe(){
-        if (this.naipe == 4){
-            this.naipe = 1;
-        }else{
-            this.naipe++;
+    /**
+     * Retorna o proximo valor ao objeto.<br>
+     *     &nbsp;ex: <b>'Naipe.PAUS.nextNaipe()'</b> retorna 'Naipe.OUROS'<br>
+     *     &nbsp;ex2: <b>'Naipe.ESPADAS.nextNaipe()'</b> retorna 'Naipe.PAUS'<br>
+     *      
+     *     &nbsp;a ordem dos naipes é a seguinte:<br>
+     *         &emsp;PAUS-&gt;OUROS-&gt;COPAS-&gt;ESPADAS-&gt;PAUS...    
+     * @return 
+     *      Naipe
+     */
+    public Naipe nextNaipe(){
+        switch(this.naipe){
+            case 1:
+                return Naipe.OUROS;
+            case 2:
+                return Naipe.COPAS;
+            case 3:
+                return Naipe.ESPADAS;
+            case 4:
+                return Naipe.PAUS;
+            default:
+                return null;
         }
     }
 
@@ -32,7 +49,7 @@ public enum Naipe {
     /**
      *  Usado para obter a representação em String do objeto enum.
      * @return
-     *  O nome do objeto Enum.
+     *  String
      */
     @Override public String toString(){
         switch(this.naipe){

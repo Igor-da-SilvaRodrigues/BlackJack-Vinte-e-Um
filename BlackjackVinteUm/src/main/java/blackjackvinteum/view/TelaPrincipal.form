@@ -116,9 +116,6 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="DealerHandIcon">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/cards/imagens/back.png"/>
-            </Property>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[180, 251]"/>
             </Property>
@@ -147,22 +144,17 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jLabel1" alignment="0" min="-2" pref="179" max="-2" attributes="0"/>
+              <Component id="PlayerHandIcon" alignment="0" min="-2" pref="179" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jLabel1" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
+              <Component id="PlayerHandIcon" alignment="0" min="-2" pref="250" max="-2" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="jLabel1">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/cards/imagens/back.png"/>
-            </Property>
-          </Properties>
+        <Component class="javax.swing.JLabel" name="PlayerHandIcon">
         </Component>
       </SubComponents>
     </Container>
@@ -190,11 +182,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Stand"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PlayerStandPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jButtonHit">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hit"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PlayerHitPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

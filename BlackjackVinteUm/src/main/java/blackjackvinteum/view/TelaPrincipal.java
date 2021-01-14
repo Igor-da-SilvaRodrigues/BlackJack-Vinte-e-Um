@@ -4,24 +4,41 @@
  * and open the template in the editor.
  */
 package blackjackvinteum.view;
-//setIcon = jText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/blackjackvinteum/view/cards/imagens/10c.png")));
 
 import javax.swing.ImageIcon;
+import blackjackvinteum.players.Cards;
+import blackjackvinteum.players.Dealer;
+import blackjackvinteum.players.Player;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author rodri
  */
 public class TelaPrincipal extends javax.swing.JFrame {
-       
+    private final String NULL_CARD_PATH = "/cards/imagens/back.png";
+    private Integer round = 0;
+    private Player jogador;
+    private Dealer dealer;
+    private Cards CartaAtual;
+    
+    public void novoRound(){
+            round++;
+            dealer = new Dealer();
+            jogador = new Player();
+            DealerHandIcon.setIcon(createImageIcon(NULL_CARD_PATH));
+            PlayerHandIcon.setIcon(createImageIcon(NULL_CARD_PATH));
+            jLabelDealerCount.setText("0");
+            jLabelPlayerCount.setText("0");
+            CartaAtual = dealer.bet();
+            DealerHandIcon.setIcon(createImageIcon(CartaAtual.getIconPath()));
+            jLabelDealerCount.setText(dealer.getHand().toString());        
+    }
     /**
      * Creates new form TelaPrincipal
      */
-    public TelaPrincipal() {
-                                            
+    public TelaPrincipal() {                                       
         initComponents();
-        //DealerHandIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cards/imagens/back.png")));
-        
     }
 
     /**
@@ -36,7 +53,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         DealerHand = new javax.swing.JPanel();
         DealerHandIcon = new javax.swing.JLabel();
         PlayerHand = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        PlayerHandIcon = new javax.swing.JLabel();
         jLabelDealerTotal = new javax.swing.JLabel();
         jLabelDealerCount = new javax.swing.JLabel();
         jLabelPlayerTotal = new javax.swing.JLabel();
@@ -53,7 +70,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
         DealerHand.setMinimumSize(new java.awt.Dimension(179, 250));
         DealerHand.setPreferredSize(new java.awt.Dimension(179, 250));
 
-        DealerHandIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cards/imagens/back.png"))); // NOI18N
         DealerHandIcon.setMaximumSize(new java.awt.Dimension(180, 251));
 
         javax.swing.GroupLayout DealerHandLayout = new javax.swing.GroupLayout(DealerHand);
@@ -72,17 +88,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         PlayerHand.setForeground(new java.awt.Color(255, 255, 255));
         PlayerHand.setToolTipText("");
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/cards/imagens/back.png"))); // NOI18N
-
         javax.swing.GroupLayout PlayerHandLayout = new javax.swing.GroupLayout(PlayerHand);
         PlayerHand.setLayout(PlayerHandLayout);
         PlayerHandLayout.setHorizontalGroup(
             PlayerHandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PlayerHandIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         PlayerHandLayout.setVerticalGroup(
             PlayerHandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PlayerHandIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         jLabelDealerTotal.setText("DEALER_TOTAL:");
@@ -94,8 +108,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabelPlayerCount.setText("0");
 
         jButtonStand.setText("Stand");
+        jButtonStand.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PlayerStandPerformed(evt);
+            }
+        });
 
         jButtonHit.setText("Hit");
+        jButtonHit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PlayerHitPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -149,6 +173,71 @@ public class TelaPrincipal extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void PlayerHitPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayerHitPerformed
+        if (jogador.getHand() < 17){
+            CartaAtual = dealer.deal();
+            
+            if (CartaAtual != null){
+                PlayerHandIcon.setIcon(createImageIcon(CartaAtual.getIconPath()));
+                jogador.addHand(CartaAtual.getValor().getValor());
+            }
+            
+            jLabelPlayerCount.setText(jogador.getHand().toString());
+            
+            if (jogador.getHand() > 21){
+                JOptionPane.showMessageDialog(null, "Você Perdeu :( ", "Game Over", JOptionPane.ERROR_MESSAGE);
+                novoRound();
+            }else{
+                if (!dealer.isStanding()){
+                    CartaAtual = dealer.bet();
+                    jLabelDealerCount.setText(dealer.getHand().toString());
+                    
+                    if (CartaAtual != null){
+                        DealerHandIcon.setIcon(createImageIcon(CartaAtual.getIconPath()));
+                    }
+                    if (dealer.getHand() > 21){
+                        JOptionPane.showMessageDialog(null, "Você Venceu :D ", "You Win", JOptionPane.INFORMATION_MESSAGE);
+                        novoRound();
+                    }
+                }  
+            }     
+        }else{
+            JOptionPane.showMessageDialog(null, "Você não pode jogar com 17 pontos ou mais!", "FAULT!", JOptionPane.WARNING_MESSAGE);        
+            PlayerStandPerformed(evt);
+        } 
+        
+    }//GEN-LAST:event_PlayerHitPerformed
+
+    private void PlayerStandPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayerStandPerformed
+        while (!dealer.isStanding()){
+            this.CartaAtual = dealer.bet();
+            jLabelDealerCount.setText(dealer.getHand().toString());
+            
+            if (CartaAtual != null){
+                DealerHandIcon.setIcon(createImageIcon(CartaAtual.getIconPath()));
+            }
+        }
+        
+        if (dealer.getHand() >= 17 && dealer.getHand() <= 21){
+            if (dealer.getHand() > jogador.getHand()){
+               
+                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHand().toString()+
+                        " e Você tinha " +jogador.getHand()+ "\n Você Perdeu :( ", "Game Over", JOptionPane.ERROR_MESSAGE);
+                novoRound();
+            }else{
+                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHand().toString()+
+                        " e Você tinha " +jogador.getHand()+ "\n Você Venceu :D ", "You Win", JOptionPane.INFORMATION_MESSAGE);
+                novoRound();
+            }
+        }else{
+            if (dealer.getHand() > 21){
+                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHand().toString()+
+                        " e Você tinha " +jogador.getHand()+ "\n Você Venceu :D ", "You Win", JOptionPane.INFORMATION_MESSAGE);
+                novoRound();
+            }
+        }
+    }//GEN-LAST:event_PlayerStandPerformed
     
     /**
      * @param args the command line arguments
@@ -180,7 +269,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaPrincipal().setVisible(true);
+                TelaPrincipal tp = new TelaPrincipal();
+                tp.setVisible(true);
+                tp.novoRound();        
             }
         });
     }
@@ -189,9 +280,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel DealerHand;
     private javax.swing.JLabel DealerHandIcon;
     private javax.swing.JPanel PlayerHand;
+    private javax.swing.JLabel PlayerHandIcon;
     private javax.swing.JButton jButtonHit;
     private javax.swing.JButton jButtonStand;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelDealerCount;
     private javax.swing.JLabel jLabelDealerTotal;
     private javax.swing.JLabel jLabelPlayerCount;
