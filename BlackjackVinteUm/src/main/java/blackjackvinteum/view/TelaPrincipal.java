@@ -1,5 +1,5 @@
 
-package blackjackvinteum.view;
+package blackjackvinteum.view;//
 
 import javax.swing.ImageIcon;
 import blackjackvinteum.players.Cards;
@@ -62,37 +62,45 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setResizable(false);
 
         DealerHand.setBackground(new java.awt.Color(214, 217, 223));
-        DealerHand.setMaximumSize(new java.awt.Dimension(180, 251));
-        DealerHand.setMinimumSize(new java.awt.Dimension(179, 250));
+        DealerHand.setMaximumSize(new java.awt.Dimension(235, 334));
+        DealerHand.setMinimumSize(new java.awt.Dimension(234, 333));
         DealerHand.setPreferredSize(new java.awt.Dimension(179, 250));
 
-        DealerHandIcon.setMaximumSize(new java.awt.Dimension(180, 251));
+        DealerHandIcon.setMaximumSize(new java.awt.Dimension(235, 334));
+        DealerHandIcon.setMinimumSize(new java.awt.Dimension(234, 333));
 
         javax.swing.GroupLayout DealerHandLayout = new javax.swing.GroupLayout(DealerHand);
         DealerHand.setLayout(DealerHandLayout);
         DealerHandLayout.setHorizontalGroup(
             DealerHandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DealerHandIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(DealerHandIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         DealerHandLayout.setVerticalGroup(
             DealerHandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(DealerHandIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(DealerHandIcon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         PlayerHand.setBackground(new java.awt.Color(214, 217, 223));
         PlayerHand.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 0, 51)));
         PlayerHand.setForeground(new java.awt.Color(255, 255, 255));
         PlayerHand.setToolTipText("");
+        PlayerHand.setMaximumSize(new java.awt.Dimension(235, 334));
+        PlayerHand.setMinimumSize(new java.awt.Dimension(234, 333));
+        PlayerHand.setPreferredSize(new java.awt.Dimension(235, 334));
+
+        PlayerHandIcon.setMaximumSize(new java.awt.Dimension(235, 334));
+        PlayerHandIcon.setMinimumSize(new java.awt.Dimension(234, 333));
+        PlayerHandIcon.setPreferredSize(new java.awt.Dimension(235, 334));
 
         javax.swing.GroupLayout PlayerHandLayout = new javax.swing.GroupLayout(PlayerHand);
         PlayerHand.setLayout(PlayerHandLayout);
         PlayerHandLayout.setHorizontalGroup(
             PlayerHandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PlayerHandIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PlayerHandIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
         );
         PlayerHandLayout.setVerticalGroup(
             PlayerHandLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PlayerHandIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PlayerHandIcon, javax.swing.GroupLayout.DEFAULT_SIZE, 333, Short.MAX_VALUE)
         );
 
         jLabelDealerTotal.setText("DEALER_TOTAL:");
@@ -126,14 +134,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButtonStand)
                     .addComponent(jButtonHit)
-                    .addComponent(DealerHand, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(DealerHand, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelPlayerTotal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelPlayerCount)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 226, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
                         .addComponent(PlayerHand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabelDealerTotal)
@@ -152,7 +160,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabelDealerTotal)
                                 .addComponent(jLabelDealerCount))
-                            .addComponent(DealerHand, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(DealerHand, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonHit)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -161,7 +169,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                             .addComponent(jLabelPlayerCount)
                             .addComponent(jButtonStand)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 232, Short.MAX_VALUE)
+                        .addGap(0, 153, Short.MAX_VALUE)
                         .addComponent(PlayerHand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );

@@ -29,6 +29,10 @@ public class Dealer {
             }
             if (i.getNaipe() == 4 ) { break; }
         }
+        
+        Cards aux = deck.pop();
+        deck.insertElementAt(aux, random.nextInt(deck.size()));
+        
     }
     
     public Cards deal(){
