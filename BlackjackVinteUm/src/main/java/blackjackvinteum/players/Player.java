@@ -1,23 +1,32 @@
 
 package blackjackvinteum.players;
-
+import java.util.Stack;
 /**
  *
  * @author Igor da Silva Rodrigues
  */
 public class Player {
-    private Integer hand = 0;
+    private Integer handTotal = 0;
+    private Stack<Cards> hand;
+    
+    public Player(){
+        hand = new Stack<>();
+    }
 
-    public void setHand(Integer hand) {
-        this.hand = hand;
+    public void setHandTotal(Integer handTotal) {
+        this.handTotal = handTotal;
     }
     
-    public Integer getHand(){
+    public Integer getHandTotal(){
+        return handTotal;
+    }
+    
+    public Stack<Cards> getHand() {
         return hand;
     }
     
-    public void addHand(Integer hand){
-        this.hand = this.hand + hand;
-    }
-    
+    public void addHand(Cards card){
+        this.handTotal = this.handTotal + card.getValor().getValor();
+        hand.push(card);
+    }    
 }

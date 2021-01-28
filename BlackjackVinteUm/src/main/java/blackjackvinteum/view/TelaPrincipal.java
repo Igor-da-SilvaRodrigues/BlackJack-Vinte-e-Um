@@ -5,6 +5,7 @@ import javax.swing.ImageIcon;
 import blackjackvinteum.players.Cards;
 import blackjackvinteum.players.Dealer;
 import blackjackvinteum.players.Player;
+import java.util.Stack;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,7 +17,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private Integer round = 0;
     private Player jogador;
     private Dealer dealer;
-    private Cards CartaAtual;
+    private Cards CartaAtualPlayer;
+    private Cards CartaAtualDealer;
+    private final int STACK_INDEX = 0;
+    private int playerIndexCounter = STACK_INDEX; //indice da pilha invertida. 0 == topo, 1 == segunda casa, etc...
+    private int dealerIndexCounter = STACK_INDEX;
     
     public void novoRound(){
             round++;
@@ -26,9 +31,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             PlayerHandIcon.setIcon(createImageIcon(NULL_CARD_PATH));
             jLabelDealerCount.setText("0");
             jLabelPlayerCount.setText("0");
-            CartaAtual = dealer.bet();
-            DealerHandIcon.setIcon(createImageIcon(CartaAtual.getIconPath()));
-            jLabelDealerCount.setText(dealer.getHand().toString());        
+            CartaAtualDealer = dealer.bet();
+            dealerIndexCounter = STACK_INDEX;
+            DealerHandIcon.setIcon(createImageIcon(CartaAtualDealer.getIconPath()));
+            jLabelDealerCount.setText(dealer.getHandTotal().toString());        
     }
     /**
      * Creates new form TelaPrincipal
@@ -56,6 +62,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabelPlayerCount = new javax.swing.JLabel();
         jButtonStand = new javax.swing.JButton();
         jButtonHit = new javax.swing.JButton();
+        jButtonDealerHandLeft = new javax.swing.JButton();
+        jButtonDealerHandRight = new javax.swing.JButton();
+        jButtonPlayerHandLeft = new javax.swing.JButton();
+        jButtonPlayerHandRight = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BlackJack Vinte e Um");
@@ -103,8 +113,6 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addComponent(PlayerHandIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 332, Short.MAX_VALUE)
         );
 
-        PlayerHandIcon.getAccessibleContext().setAccessibleParent(null);
-
         jLabelDealerTotal.setText("DEALER_TOTAL:");
 
         jLabelDealerCount.setText("0");
@@ -127,13 +135,45 @@ public class TelaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButtonDealerHandLeft.setText("<");
+        jButtonDealerHandLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDealerHandLeftActionPerformed(evt);
+            }
+        });
+
+        jButtonDealerHandRight.setText(">");
+        jButtonDealerHandRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDealerHandRightActionPerformed(evt);
+            }
+        });
+
+        jButtonPlayerHandLeft.setText("<");
+        jButtonPlayerHandLeft.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPlayerHandLeftActionPerformed(evt);
+            }
+        });
+
+        jButtonPlayerHandRight.setText(">");
+        jButtonPlayerHandRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonPlayerHandRightActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(44, 44, 44)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonDealerHandLeft)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonDealerHandRight))
                     .addComponent(jButtonStand)
                     .addComponent(jButtonHit)
                     .addComponent(DealerHand, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,9 +187,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addComponent(jLabelDealerTotal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabelDealerCount)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
-                .addComponent(PlayerHand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PlayerHand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonPlayerHandLeft)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonPlayerHandRight)))
+                .addGap(46, 46, 46))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +205,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addComponent(jLabelDealerTotal)
                         .addComponent(jLabelDealerCount))
                     .addComponent(DealerHand, javax.swing.GroupLayout.PREFERRED_SIZE, 334, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButtonDealerHandLeft)
+                    .addComponent(jButtonDealerHandRight))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
                 .addComponent(jButtonHit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -170,6 +219,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonPlayerHandLeft)
+                    .addComponent(jButtonPlayerHandRight))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PlayerHand, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10))
         );
@@ -179,28 +232,30 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void PlayerHitPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayerHitPerformed
-        if (jogador.getHand() < 17){
-            CartaAtual = dealer.deal();
+        if (jogador.getHandTotal() < 17){
+            CartaAtualPlayer = dealer.deal();
             
-            if (CartaAtual != null){
-                PlayerHandIcon.setIcon(createImageIcon(CartaAtual.getIconPath()));
-                jogador.addHand(CartaAtual.getValor().getValor());
+            if (CartaAtualPlayer != null){
+                PlayerHandIcon.setIcon(createImageIcon(CartaAtualPlayer.getIconPath()));
+                jogador.addHand(CartaAtualPlayer);
+                playerIndexCounter = STACK_INDEX;
             }
             
-            jLabelPlayerCount.setText(jogador.getHand().toString());
+            jLabelPlayerCount.setText(jogador.getHandTotal().toString());
             
-            if (jogador.getHand() > 21){
+            if (jogador.getHandTotal() > 21){
                 JOptionPane.showMessageDialog(null, "Você Perdeu :( ", "Game Over", JOptionPane.ERROR_MESSAGE);
                 novoRound();
             }else{
                 if (!dealer.isStanding()){
-                    CartaAtual = dealer.bet();
-                    jLabelDealerCount.setText(dealer.getHand().toString());
+                    CartaAtualDealer = dealer.bet();
+                    jLabelDealerCount.setText(dealer.getHandTotal().toString());
                     
-                    if (CartaAtual != null){
-                        DealerHandIcon.setIcon(createImageIcon(CartaAtual.getIconPath()));
+                    if (CartaAtualDealer != null){
+                        DealerHandIcon.setIcon(createImageIcon(CartaAtualDealer.getIconPath()));
+                        dealerIndexCounter = STACK_INDEX;
                     }
-                    if (dealer.getHand() > 21){
+                    if (dealer.getHandTotal() > 21){
                         JOptionPane.showMessageDialog(null, "Você Venceu :D ", "You Win", JOptionPane.INFORMATION_MESSAGE);
                         novoRound();
                     }
@@ -215,33 +270,103 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void PlayerStandPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PlayerStandPerformed
         while (!dealer.isStanding()){
-            this.CartaAtual = dealer.bet();
-            jLabelDealerCount.setText(dealer.getHand().toString());
+            this.CartaAtualDealer = dealer.bet();
+            jLabelDealerCount.setText(dealer.getHandTotal().toString());
             
-            if (CartaAtual != null){
-                DealerHandIcon.setIcon(createImageIcon(CartaAtual.getIconPath()));
+            if (CartaAtualDealer != null){
+                DealerHandIcon.setIcon(createImageIcon(CartaAtualDealer.getIconPath()));
+                dealerIndexCounter = STACK_INDEX;
             }
         }
         
-        if (dealer.getHand() >= 17 && dealer.getHand() <= 21){
-            if (dealer.getHand() > jogador.getHand()){
+        if (dealer.getHandTotal() >= 17 && dealer.getHandTotal() <= 21){
+            if (dealer.getHandTotal() > jogador.getHandTotal()){
                
-                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHand().toString()+
-                        " e Você tinha " +jogador.getHand()+ "\n Você Perdeu :( ", "Game Over", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHandTotal().toString()+
+                        " e Você tinha " +jogador.getHandTotal()+ "\n Você Perdeu :( ", "Game Over", JOptionPane.ERROR_MESSAGE);
                 novoRound();
             }else{
-                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHand().toString()+
-                        " e Você tinha " +jogador.getHand()+ "\n Você Venceu :D ", "You Win", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHandTotal().toString()+
+                        " e Você tinha " +jogador.getHandTotal()+ "\n Você Venceu :D ", "You Win", JOptionPane.INFORMATION_MESSAGE);
                 novoRound();
             }
         }else{
-            if (dealer.getHand() > 21){
-                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHand().toString()+
-                        " e Você tinha " +jogador.getHand()+ "\n Você Venceu :D ", "You Win", JOptionPane.INFORMATION_MESSAGE);
+            if (dealer.getHandTotal() > 21){
+                JOptionPane.showMessageDialog(null, "O dealer tinha " +dealer.getHandTotal().toString()+
+                        " e Você tinha " +jogador.getHandTotal()+ "\n Você Venceu :D ", "You Win", JOptionPane.INFORMATION_MESSAGE);
                 novoRound();
             }
         }
     }//GEN-LAST:event_PlayerStandPerformed
+
+    //Navegar entre as cartas da mão do jogador.
+    private void jButtonPlayerHandLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayerHandLeftActionPerformed
+        Stack<Cards> aux;
+        aux = jogador.getHand();
+        Cards c_prev = CartaAtualPlayer;
+        int i_prev = playerIndexCounter;
+        javax.swing.Icon I_prev = PlayerHandIcon.getIcon();
+        try {
+            playerIndexCounter++;
+            CartaAtualPlayer = aux.elementAt(aux.size() - (playerIndexCounter +1));
+            PlayerHandIcon.setIcon(createImageIcon(CartaAtualPlayer.getIconPath()));
+        } catch (ArrayIndexOutOfBoundsException e) {        
+            playerIndexCounter = i_prev;
+            CartaAtualPlayer = c_prev;
+            PlayerHandIcon.setIcon(I_prev);
+        }
+    }//GEN-LAST:event_jButtonPlayerHandLeftActionPerformed
+
+    private void jButtonPlayerHandRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPlayerHandRightActionPerformed
+        Stack<Cards> aux;
+        aux = jogador.getHand();
+        Cards c_prev = CartaAtualPlayer;
+        int i_prev = playerIndexCounter;
+        javax.swing.Icon I_prev = PlayerHandIcon.getIcon();
+        try {
+            playerIndexCounter--;
+            CartaAtualPlayer = aux.elementAt(aux.size() - (playerIndexCounter +1));
+            PlayerHandIcon.setIcon(createImageIcon(CartaAtualPlayer.getIconPath()));
+        } catch (ArrayIndexOutOfBoundsException e) {        
+            playerIndexCounter = i_prev;
+            CartaAtualPlayer = c_prev;
+            PlayerHandIcon.setIcon(I_prev);
+        }
+    }//GEN-LAST:event_jButtonPlayerHandRightActionPerformed
+    //Navegar entre as cartas da mão do dealer.
+    private void jButtonDealerHandLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDealerHandLeftActionPerformed
+        Stack<Cards> aux;
+        aux = dealer.getHand();
+        Cards c_prev = CartaAtualDealer;
+        int i_prev = dealerIndexCounter;
+        javax.swing.Icon I_prev = DealerHandIcon.getIcon();
+        try {
+            dealerIndexCounter++;
+            CartaAtualDealer = aux.elementAt(aux.size() - (dealerIndexCounter +1));
+            DealerHandIcon.setIcon(createImageIcon(CartaAtualDealer.getIconPath()));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            dealerIndexCounter = i_prev;
+            CartaAtualDealer = c_prev;
+            DealerHandIcon.setIcon(I_prev);
+        }
+    }//GEN-LAST:event_jButtonDealerHandLeftActionPerformed
+
+    private void jButtonDealerHandRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDealerHandRightActionPerformed
+        Stack<Cards> aux;
+        aux = dealer.getHand();
+        Cards c_prev = CartaAtualDealer;
+        int i_prev = dealerIndexCounter;
+        javax.swing.Icon I_prev = DealerHandIcon.getIcon();
+        try {
+            dealerIndexCounter--;
+            CartaAtualDealer = aux.elementAt(aux.size() - (dealerIndexCounter +1));
+            DealerHandIcon.setIcon(createImageIcon(CartaAtualDealer.getIconPath()));
+        } catch (ArrayIndexOutOfBoundsException e) {
+            dealerIndexCounter = i_prev;
+            CartaAtualDealer = c_prev;
+            DealerHandIcon.setIcon(I_prev);
+        }
+    }//GEN-LAST:event_jButtonDealerHandRightActionPerformed
     
     /**
      * @param args the command line arguments
@@ -285,7 +410,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel DealerHandIcon;
     private javax.swing.JPanel PlayerHand;
     private javax.swing.JLabel PlayerHandIcon;
+    private javax.swing.JButton jButtonDealerHandLeft;
+    private javax.swing.JButton jButtonDealerHandRight;
     private javax.swing.JButton jButtonHit;
+    private javax.swing.JButton jButtonPlayerHandLeft;
+    private javax.swing.JButton jButtonPlayerHandRight;
     private javax.swing.JButton jButtonStand;
     private javax.swing.JLabel jLabelDealerCount;
     private javax.swing.JLabel jLabelDealerTotal;

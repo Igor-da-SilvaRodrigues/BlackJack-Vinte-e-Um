@@ -11,11 +11,13 @@ import java.util.Random;
  */
 public class Dealer {
     private boolean standing = false;
-    private Integer hand = 0;
+    private Integer handTotal = 0;
     Stack<Cards> deck;
+    Stack<Cards> hand;
 
     public Dealer() {
         this.deck = new Stack<>();
+        this.hand = new Stack<>();
         Random random = new Random();
         
         for (Naipe i = Naipe.PAUS; i.getNaipe()<=4; i = i.nextNaipe()){
@@ -48,10 +50,10 @@ public class Dealer {
     
     public Cards bet(){
         Cards cartaAtual = null;
-        if (this.hand < 17 && standing == false){
+        if (this.handTotal < 17 && standing == false){
             cartaAtual = this.deal();
             if (cartaAtual != null){
-                this.addHand(cartaAtual.getValor().getValor());
+                this.addHand(cartaAtual);
             }
         }else{
             this.stand();
@@ -67,15 +69,20 @@ public class Dealer {
         return standing;
     }
     
-    public Integer getHand() {
+    public Integer getHandTotal() {
+        return handTotal;
+    }
+    
+    public void setHandTotal(Integer hand) {
+        this.handTotal = hand;
+    }
+    
+    public void addHand(Cards card){
+        this.handTotal = this.handTotal + card.getValor().getValor();
+        hand.push(card);
+    }
+
+    public Stack<Cards> getHand() {
         return hand;
-    }
-    
-    public void setHand(Integer hand) {
-        this.hand = hand;
-    }
-    
-    public void addHand(Integer hand){
-        this.hand = this.hand + hand;
     }
 }
